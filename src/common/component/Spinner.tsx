@@ -11,7 +11,7 @@ const Spinner = () => {
         height: "100dvh",
       }}
     >
-      <ClipLoader color="#000" size={40} />
+      <ClipLoader color="#fff" size={40} />
     </div>
   );
 };
