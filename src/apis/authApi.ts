@@ -1,6 +1,10 @@
 import axios from "axios";
 import { CLIENT_ID, CLIENT_SECRET } from "../configs/authConfig";
-import { ClientCredentialTokenResponse } from "../models/auth";
+import {
+  ClientCredentialTokenResponse,
+  ExchangeTokenResponse,
+} from "../models/auth";
+import { REACT_APP_REDIRECT_URI } from "../configs/commonConfig";
 
 const encodedBase64 = (data: string): string => {
   if (typeof window !== "undefined") {
@@ -33,3 +37,30 @@ export const getClientCredentialToken =
       throw new Error("Failed to fetch client credential token");
     }
   };
+
+export const exchangeToken = async (
+  code: string,
+  codeVerifier: string
+): Promise<ExchangeTokenResponse> => {
+  try {
+    const url = "https://accounts.spotify.com/api/token";
+    if (!CLIENT_ID || !REACT_APP_REDIRECT_URI) {
+      throw new Error("Client ID or redirect URI is not defined");
+    }
+    const body = new URLSearchParams({
+      client_id: CLIENT_ID,
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: REACT_APP_REDIRECT_URI,
+      code_verifier: codeVerifier,
+    });
+    const response = await axios.post(url, body, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch token");
+  }
+};

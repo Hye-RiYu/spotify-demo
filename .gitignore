@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # API
+.env
 .env.development
 .env.production
