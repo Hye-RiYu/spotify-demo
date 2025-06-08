@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router";
 import Spinner from "./common/components/Spinner";
 import useExchangeToken from "./hooks/useExchangeToken";
+import SpotifyCallback from "./pages/SpotifyCallback";
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
@@ -38,6 +39,8 @@ function App() {
   return (
     <Suspense fallback={<Spinner />}>
       <Routes>
+        <Route path="/callback" element={<SpotifyCallback />} />
+
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="search" element={<SearchPage />} />
