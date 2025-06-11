@@ -1,6 +1,8 @@
 import {
   GetCurrentUserPlaylistRequest,
   GetCurrentUserPlaylistResponse,
+  GetPlaylistRequest,
+  Playlist,
 } from "../models/playlist";
 import api from "../utils/api";
 
@@ -12,9 +14,22 @@ export const getCurrentUserPlaylists = async ({
     const response = await api.get(`/me/playlists`, {
       params: { limit, offset },
     });
-    console.log("🎯 Spotify API 응답 데이터:", response.data); // 여기!
+    console.log("Spotify API 응답 데이터:", response.data);
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch current user playlists");
+  }
+};
+
+export const getPlaylist = async (
+  params: GetPlaylistRequest
+): Promise<Playlist> => {
+  try {
+    const response = await api.get(`/playlists/${params.playlist_id}`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch playlist details");
   }
 };
