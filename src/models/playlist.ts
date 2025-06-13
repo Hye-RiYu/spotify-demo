@@ -1,5 +1,7 @@
 import { ApiResponse } from "./apiResponse";
+
 import { ExternalUrls, Followers, Image, Owner } from "./commonType";
+import { Episode, Track } from "./track";
 
 export interface GetCurrentUserPlaylistRequest {
   limit?: number;
@@ -39,64 +41,12 @@ export interface GetPlaylistRequest {
   additional_types?: string;
 }
 
-export interface Artist {
-  external_urls?: ExternalUrls;
-  href?: string;
-  id?: string;
-  name?: string;
-  type?: string;
-  uri?: string;
+export interface GetPlaylistItemsRequest extends GetPlaylistRequest {
+  limit?: number;
+  offset?: number;
 }
 
-export interface Album {
-  album_type?: string;
-  total_tracks?: number;
-  available_markets?: string[];
-  external_urls?: ExternalUrls;
-  href?: string;
-  id?: string;
-  images?: Image[];
-  name?: string;
-  release_date?: string;
-  release_date_precision?: string;
-  restrictions?: {
-    reason?: string;
-  };
-  type?: string;
-  uri?: string;
-  artists?: Artist[];
-}
-
-export interface ExternalIds {
-  isrc?: string;
-  ean?: string;
-  upc?: string;
-}
-
-export interface Track {
-  album?: Album;
-  artists?: Artist[];
-  available_markets?: string[];
-  disc_number?: number;
-  duration_ms?: number;
-  explicit?: boolean;
-  external_ids?: ExternalIds;
-  external_urls?: ExternalUrls;
-  href?: string;
-  id?: string;
-  is_playable?: boolean;
-  linked_from?: Record<string, unknown>;
-  restrictions?: {
-    reason?: string;
-  };
-  name?: string;
-  popularity?: number;
-  preview_url?: string;
-  track_number?: number;
-  type?: string;
-  uri?: string;
-  is_local?: boolean;
-}
+export type GetPlaylistItemsRespnse = ApiResponse<PlaylistTrack>;
 
 export interface PlaylistTrack {
   added_at?: string | null;
@@ -108,5 +58,18 @@ export interface PlaylistTrack {
     uri?: string;
   } | null;
   is_local?: boolean;
-  track: Track;
+  track: Track | Episode;
+}
+
+export interface ExternalIds {
+  isrc?: string;
+  ean?: string;
+  upc?: string;
+}
+
+export interface CreatePlaylistRequest {
+  name: string;
+  public?: boolean;
+  collaborative?: boolean;
+  description?: string;
 }

@@ -1,3 +1,4 @@
+// api.ts
 import axios from "axios";
 import { REACT_APP_SPOTIFY_BASE_URL } from "../configs/commonConfig";
 
